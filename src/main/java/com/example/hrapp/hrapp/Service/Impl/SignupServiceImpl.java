@@ -2,7 +2,6 @@ package com.example.hrapp.hrapp.Service.Impl;
 
 import com.example.hrapp.hrapp.DTO.Request.BaseSignupRequest;
 import com.example.hrapp.hrapp.DTO.Request.HrManagerSignupRequestDTO;
-
 import com.example.hrapp.hrapp.Domain.HrManager;
 import com.example.hrapp.hrapp.Domain.User;
 import com.example.hrapp.hrapp.Response.SignupResponse;
@@ -25,7 +24,7 @@ public class SignupServiceImpl implements SignupService {
 
     @Override
     public SignupResponse signUpAsHrManager(final HrManagerSignupRequestDTO hrManagerSignupRequest) {
-        //TODO: Some email validations..
+        //TODO: Some email validations.. like isEmailUnique ?
 
         final HrManager hrManager = new HrManager();
         fillUserInformations(hrManager, hrManagerSignupRequest);
