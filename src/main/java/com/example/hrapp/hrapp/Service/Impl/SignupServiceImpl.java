@@ -1,8 +1,10 @@
 package com.example.hrapp.hrapp.Service.Impl;
 
+import com.example.hrapp.hrapp.DTO.Request.BaseSignupRequest;
 import com.example.hrapp.hrapp.DTO.Request.HrManagerSignupRequestDTO;
 
 import com.example.hrapp.hrapp.Domain.HrManager;
+import com.example.hrapp.hrapp.Domain.User;
 import com.example.hrapp.hrapp.Response.SignupResponse;
 import com.example.hrapp.hrapp.Service.RoleService;
 import com.example.hrapp.hrapp.Service.SignupService;
@@ -26,22 +28,25 @@ public class SignupServiceImpl implements SignupService {
         //TODO: Some email validations..
 
         final HrManager hrManager = new HrManager();
+        fillUserInformations(hrManager, hrManagerSignupRequest);
 
-        hrManager.setName(hrManagerSignupRequest.getName());
-        hrManager.setSurname(hrManagerSignupRequest.getSurname());
-        hrManager.setUsername(hrManagerSignupRequest.getUsername());
-        hrManager.setPassword(passwordEncoder.encode(hrManagerSignupRequest.getPassword()));
-        hrManager.setAccountNonExpired(true);
-        hrManager.setCredentialsNonExpired(true);
-        hrManager.setAccountNonLocked(true);
-        hrManager.setEnabled(true);
         hrManager.setRoles(roleService.findAllByName("ROLE_HR_MANAGER"));
-
-        //TODO: Create general signup request..
 
         userDetailsService.saveUser(hrManager);
 
         return new SignupResponse(true, "Signup successfull");
+    }
+
+    private void fillUserInformations(final User user, final BaseSignupRequest baseSignupRequest) {
+
+        user.setName(baseSignupRequest.getName());
+        user.setSurname(baseSignupRequest.getSurname());
+        user.setUsername(baseSignupRequest.getUsername());
+        user.setPassword(passwordEncoder.encode(baseSignupRequest.getPassword()));
+        user.setAccountNonExpired(true);
+        user.setCredentialsNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setEnabled(true);
     }
 
 }

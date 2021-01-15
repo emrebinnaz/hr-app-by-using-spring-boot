@@ -1,5 +1,6 @@
 package com.example.hrapp.hrapp.Util;
 
+
 import com.example.hrapp.hrapp.Domain.Privilege;
 import com.example.hrapp.hrapp.Domain.Role;
 import com.example.hrapp.hrapp.Repository.PrivilegeRepository;
