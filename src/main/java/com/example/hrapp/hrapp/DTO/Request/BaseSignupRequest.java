@@ -2,6 +2,7 @@ package com.example.hrapp.hrapp.DTO.Request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @Getter
 @ToString
+@AllArgsConstructor
 public class BaseSignupRequest {
 
     @NotBlank(message = "Name must be filled")
@@ -36,18 +38,27 @@ public class BaseSignupRequest {
     @JsonProperty("passwordValidation")
     private String passwordValidation;
 
+    private boolean isAccountNonExpired;
+    private boolean isAccountNonLocked;
+    private boolean isCredentialsNonExpired;
+    private boolean isEnabled;
+
     @JsonCreator
     public BaseSignupRequest(@JsonProperty("name") final String name,
-                                     @JsonProperty("surname") final String surname,
-                                     @JsonProperty("username") final String username,
-                                     @JsonProperty("password") final String password,
-                                     @JsonProperty("passwordValidation") final String passwordValidation) {
+                             @JsonProperty("surname") final String surname,
+                             @JsonProperty("username") final String username,
+                             @JsonProperty("password") final String password,
+                             @JsonProperty("passwordValidation") final String passwordValidation) {
 
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.password = password;
         this.passwordValidation = passwordValidation;
+        this.isAccountNonExpired = true;
+        this.isAccountNonLocked = true;
+        this.isEnabled = true;
+        this.isCredentialsNonExpired = true;
 
     }
 

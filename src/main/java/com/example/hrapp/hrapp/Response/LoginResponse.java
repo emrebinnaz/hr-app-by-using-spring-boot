@@ -4,7 +4,7 @@ package com.example.hrapp.hrapp.Response;
 import lombok.Data;
 
 @Data
-public class LoginResponse extends AbstractBaseResponse{
+public class LoginResponse extends BaseResponse{
 
     private String jwtToken;
 

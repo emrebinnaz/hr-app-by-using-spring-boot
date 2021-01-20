@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class AbstractBaseResponse {
+public class BaseResponse {
 
     private boolean success;
 

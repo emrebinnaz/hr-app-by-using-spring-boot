@@ -1,7 +1,6 @@
 package com.example.hrapp.hrapp.Service.Impl;
 
 import com.example.hrapp.hrapp.Domain.User;
-import com.example.hrapp.hrapp.Exception.Exceptions.UserNotFoundException;
 import com.example.hrapp.hrapp.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,4 +22,10 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
     public void saveUser(final User user) {
         userRepository.save(user);
     }
+
+    public boolean isUserExists(final String username) {
+
+        return userRepository.existsByUsername(username);
+    }
+
 }
