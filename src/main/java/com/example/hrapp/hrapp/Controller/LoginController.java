@@ -1,7 +1,6 @@
 package com.example.hrapp.hrapp.Controller;
 
 import com.example.hrapp.hrapp.DTO.Request.LoginRequestDTO;
-import com.example.hrapp.hrapp.Exception.Exceptions.UserNotFoundException;
 import com.example.hrapp.hrapp.Response.LoginResponse;
 import com.example.hrapp.hrapp.Service.LoginService;
 import lombok.RequiredArgsConstructor;

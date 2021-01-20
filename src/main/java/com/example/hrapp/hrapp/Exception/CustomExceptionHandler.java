@@ -1,34 +1,45 @@
 package com.example.hrapp.hrapp.Exception;
 
+import com.example.hrapp.hrapp.Exception.Exceptions.NotFoundExceptions.JobNotFoundException;
 import com.example.hrapp.hrapp.Exception.Exceptions.NotUniqueUsernameException;
-import com.example.hrapp.hrapp.Exception.Exceptions.UserNotFoundException;
+import com.example.hrapp.hrapp.Exception.Exceptions.NotFoundExceptions.UserNotFoundException;
 import com.example.hrapp.hrapp.Exception.Response.ExceptionResponse;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
 @ControllerAdvice
 @RestController
-public class CustomExceptionHandler extends ResponseEntityExceptionHandler implements AccessDeniedHandler {
+public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
+    //TODO: Handle bad date format request
 
     @ExceptionHandler(value = {UserNotFoundException.class})
     protected ResponseEntity handleUserNotFoundException(UserNotFoundException exception,
                                                             WebRequest webRequest){
+
+        ExceptionResponse exceptionResponse= new ExceptionResponse(new Date(),
+                exception.getErrorMessage(),
+                webRequest.getDescription(false));
+
+        return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = {JobNotFoundException.class})
+    protected ResponseEntity handleJobNotFoundException(JobNotFoundException exception,
+                                                         WebRequest webRequest){
 
         ExceptionResponse exceptionResponse= new ExceptionResponse(new Date(),
                 exception.getErrorMessage(),
@@ -45,6 +56,17 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler imple
                 request.getDescription(false));
 
         return new ResponseEntity(exceptionResponse, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public final ResponseEntity handleInternalServerError(Exception ex, WebRequest request) {
+
+        ExceptionResponse exceptionResponse= new ExceptionResponse(new Date(),
+                "A problem occured",
+                request.getDescription(false));
+
+        return new ResponseEntity(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(value = {NotUniqueUsernameException.class})
@@ -84,13 +106,4 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler imple
         return errorMessage.toString();
     }
 
-
-    @Override
-    public void handle(HttpServletRequest httpServletRequest,
-                       HttpServletResponse httpServletResponse,
-                       AccessDeniedException exception){
-
-        System.out.println("emre");
-
-    }
 }

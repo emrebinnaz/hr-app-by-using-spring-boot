@@ -38,7 +38,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         final Privilege writeJobPrivilege = createPrivilegeIfNotFound("WRITE_JOB_PRIVILEGE");
         final Privilege updateJobPrivilege = createPrivilegeIfNotFound("UPDATE_JOB_PRIVILEGE");
         final Privilege deleteJobPrivilege = createPrivilegeIfNotFound("DELETE_JOB_PRIVILEGE");
-        final Privilege applyJobPrivilege = createPrivilegeIfNotFound(("APPLY_JOB_PRIVILEGE")); // TODO: It might not be neccessary
+        final Privilege applyJobPrivilege = createPrivilegeIfNotFound(("APPLY_JOB_PRIVILEGE"));
+        // TODO: Apply and read might not be neccessary.
 
 
         final List<Privilege> hrManagerPrivileges = new ArrayList<>(Arrays.asList(readJobPrivilege,

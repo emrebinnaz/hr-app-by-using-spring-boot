@@ -1,18 +1,26 @@
 package com.example.hrapp.hrapp.DTO;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
+
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.checkerframework.common.aliasing.qual.Unique;
+import org.springframework.data.annotation.ReadOnlyProperty;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class JobDTO implements Serializable {
+
+    @ReadOnlyProperty()
+    @JsonProperty("id")
+    private String id;
 
     @NotBlank(message = "Description must be filled")
     @JsonProperty("description")
@@ -20,8 +28,8 @@ public class JobDTO implements Serializable {
 
     @JsonProperty("lastApplicationDate")
     @FutureOrPresent(message = "Last application date is invalid")
-    @JsonFormat(pattern="dd-MM-yyyy")
-    private LocalDate lastAppliationDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate lastApplicationDate;
 
     @Min(value = 1, message = "Number of people to hire must be bigger than 0")
     @JsonProperty("numberOfPeopleToHire")
@@ -31,19 +39,4 @@ public class JobDTO implements Serializable {
     @JsonProperty("title")
     private String title;
 
-    //TODO: find a solution for is_deleted ?
-    //TODO: lastAppliationDate is always null at table ?
-
-    @JsonCreator
-    public JobDTO(@JsonProperty("description") final String description,
-                             @JsonProperty("lastApplicationDate") final LocalDate lastAppliationDate,
-                             @JsonProperty("numberOfPeopleToHire") final int numberOfPeopleToHire,
-                             @JsonProperty("title") final String title) {
-
-        this.description = description;
-        this.lastAppliationDate = lastAppliationDate;
-        this.numberOfPeopleToHire = numberOfPeopleToHire;
-        this.title = title;
-
-    }
 }

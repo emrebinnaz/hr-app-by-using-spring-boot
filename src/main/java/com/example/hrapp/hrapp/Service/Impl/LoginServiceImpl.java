@@ -2,7 +2,7 @@ package com.example.hrapp.hrapp.Service.Impl;
 
 import com.example.hrapp.hrapp.Domain.User;
 import com.example.hrapp.hrapp.DTO.Request.LoginRequestDTO;
-import com.example.hrapp.hrapp.Exception.Exceptions.UserNotFoundException;
+import com.example.hrapp.hrapp.Exception.Exceptions.NotFoundExceptions.UserNotFoundException;
 import com.example.hrapp.hrapp.Response.LoginResponse;
 import com.example.hrapp.hrapp.Service.LoginService;
 import com.example.hrapp.hrapp.Util.JwtUtil;
