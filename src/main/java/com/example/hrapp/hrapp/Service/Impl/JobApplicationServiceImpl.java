@@ -12,11 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +27,7 @@ public class JobApplicationServiceImpl implements JobApplicationService {
     private final ModelMapper modelMapper;
 
     @Override
+    @Transactional
     public BaseResponse applyToJob(final JobApplicationDTO jobApplicationDTO,
                                    final String jobId) {
 
@@ -51,6 +50,12 @@ public class JobApplicationServiceImpl implements JobApplicationService {
         final Job job = jobService.getJob(jobId);
 
         return jobApplicationRepository.findAllByJob(job);
+    }
+
+    @Override
+    public List<JobApplication> getAllJobApplications() {
+
+        return jobApplicationRepository.findAll();
     }
 
     public boolean isLastApplicationDatePassed(final LocalDate lastApplicationDate) {

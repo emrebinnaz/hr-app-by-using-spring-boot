@@ -2,7 +2,6 @@ package com.example.hrapp.hrapp.Service;
 
 import com.example.hrapp.hrapp.DTO.JobDTO;
 import com.example.hrapp.hrapp.Domain.Job;
-import com.example.hrapp.hrapp.Domain.JobApplication;
 import com.example.hrapp.hrapp.Response.BaseResponse;
 
 import java.util.List;

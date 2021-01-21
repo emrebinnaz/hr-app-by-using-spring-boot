@@ -11,4 +11,6 @@ public interface JobApplicationService {
     BaseResponse applyToJob(JobApplicationDTO jobApplicationDTO, String jobId);
 
     List<JobApplication> getAllJobApplicationsBy(String jobId);
+
+    List <JobApplication> getAllJobApplications();
 }

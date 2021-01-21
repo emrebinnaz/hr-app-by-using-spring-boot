@@ -45,4 +45,19 @@ public class JobApplicationController {
                 jobApplicationsDtoList));
     }
 
+    @GetMapping("/getAllJobApplications")
+    @PreAuthorize("hasAuthority('READ_JOB_PRIVILEGE')")
+    public ResponseEntity<AllJobApplicationsResponse> getAllJobApplications() {
+
+        final List<JobApplication> jobApplications = jobApplicationService.getAllJobApplications();
+
+        final Type listType = new TypeToken<List<JobApplicationDTO>>(){}.getType();
+        List<JobApplicationDTO> jobApplicationsDtoList = modelMapper.map(jobApplications, listType);
+
+        return ResponseEntity.ok(new AllJobApplicationsResponse("All jobs are retrieved",
+                true,
+                jobApplicationsDtoList));
+
+    }
+
 }

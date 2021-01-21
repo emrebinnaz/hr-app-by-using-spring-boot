@@ -1,4 +1,4 @@
-package com.example.hrapp.hrapp.Util;
+package com.example.hrapp.hrapp.Authentication;
 
 import org.springframework.security.core.Authentication;
 

@@ -26,8 +26,6 @@ import java.util.List;
 @RestController
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
 
-    //TODO: Handle bad date format request
-
     @ExceptionHandler(value = {NotFoundException.class})
     protected ResponseEntity handleNotFoundException(NotFoundException exception,
                                                             WebRequest webRequest){

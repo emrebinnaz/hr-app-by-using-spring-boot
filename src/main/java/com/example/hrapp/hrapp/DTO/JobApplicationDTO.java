@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.ReadOnlyProperty;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package com.example.hrapp.hrapp.Config;
+package com.example.hrapp.hrapp.Authentication;
 
 import lombok.RequiredArgsConstructor;
 import com.example.hrapp.hrapp.Domain.User;

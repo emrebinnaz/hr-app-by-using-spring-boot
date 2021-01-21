@@ -8,13 +8,12 @@ import com.example.hrapp.hrapp.Repository.JobRepository;
 import com.example.hrapp.hrapp.Response.BaseResponse;
 import com.example.hrapp.hrapp.Service.HrManagerService;
 import com.example.hrapp.hrapp.Service.JobService;
-import com.example.hrapp.hrapp.Util.AuthenticationFacade;
+import com.example.hrapp.hrapp.Authentication.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
