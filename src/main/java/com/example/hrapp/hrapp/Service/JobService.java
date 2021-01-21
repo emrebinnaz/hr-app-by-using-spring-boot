@@ -1,9 +1,11 @@
 package com.example.hrapp.hrapp.Service;
 
 import com.example.hrapp.hrapp.DTO.JobDTO;
+import com.example.hrapp.hrapp.Domain.Job;
+import com.example.hrapp.hrapp.Domain.JobApplication;
 import com.example.hrapp.hrapp.Response.BaseResponse;
-import com.example.hrapp.hrapp.Response.Job.JobListResponse;
-import com.example.hrapp.hrapp.Response.Job.JobResponse;
+
+import java.util.List;
 
 public interface JobService {
 
@@ -11,9 +13,10 @@ public interface JobService {
 
     BaseResponse deleteJob(String id);
 
-    JobResponse getJob(String id);
+    Job getJob(String id);
 
     BaseResponse updateJob(JobDTO jobDTO, String id);
 
-    JobListResponse getAllJobs();
+    List<Job> getAllJobs();
+
 }

@@ -1,33 +1,38 @@
 package com.example.hrapp.hrapp.Domain;
 
 
-import com.example.hrapp.hrapp.Domain.Common.JobApplicationPK;
-import com.sun.istack.NotNull;
+import com.example.hrapp.hrapp.Domain.Common.AbstractIdEntity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Data
-@IdClass(JobApplicationPK.class)
-public class JobApplication implements Serializable{
+public class JobApplication extends AbstractIdEntity {
 
-    @Id
+    @NotBlank()
+    private String applicantName;
+
+    @NotBlank()
+    private String applicantSurname;
+
+    @NotBlank()
+    private String applicantAddress;
+
+    @NotBlank()
+    private String applicantPhone;
+
+    @NotBlank()
+    private String thoughtsOfApplicantOnTheJob;
+
+    @NotBlank()
+    private String applicantResume;
+
+    @NotBlank()
+    private String applicantEmail;
+
     @ManyToOne(fetch = FetchType.EAGER)
-    @NotNull
-    @JoinColumn(name = "job_id", referencedColumnName = "id")
+    @JoinColumn(name = "job_id")
     private Job job;
-
-    @Id
-    @ManyToOne(fetch = FetchType.EAGER)
-    @NotNull
-    @JoinColumn(name = "applicant_id", referencedColumnName = "id", nullable = false)
-    private Applicant applicant;
-
-    private String thoughtsOnTheJob;
-
-    @NotNull()
-    private String resume;
-
 }

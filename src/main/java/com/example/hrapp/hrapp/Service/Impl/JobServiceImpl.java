@@ -6,8 +6,6 @@ import com.example.hrapp.hrapp.Domain.Job;
 import com.example.hrapp.hrapp.Exception.Exceptions.NotFoundExceptions.JobNotFoundException;
 import com.example.hrapp.hrapp.Repository.JobRepository;
 import com.example.hrapp.hrapp.Response.BaseResponse;
-import com.example.hrapp.hrapp.Response.Job.JobListResponse;
-import com.example.hrapp.hrapp.Response.Job.JobResponse;
 import com.example.hrapp.hrapp.Service.HrManagerService;
 import com.example.hrapp.hrapp.Service.JobService;
 import com.example.hrapp.hrapp.Util.AuthenticationFacade;
@@ -16,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -71,16 +70,13 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public JobListResponse getAllJobs() {
+    public List<Job> getAllJobs() {
         final List<Job> allJobs = jobRepository.findAll();
 
-        final List<JobDTO> jobDTOList = allJobs
-                .stream()
+        return allJobs.stream()
                 .filter(job -> !job.isDeleted())
-                .map(job -> modelMapper.map(job, JobDTO.class))
                 .collect(Collectors.toList());
 
-        return new JobListResponse(true,"Job list can be retrieved",jobDTOList);
     }
 
     @Override
@@ -109,7 +105,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public JobResponse getJob(final String id) {
+    public Job getJob(final String id) {
 
         UUID uuid = UUID.fromString(id);
 
@@ -122,10 +118,8 @@ public class JobServiceImpl implements JobService {
 
                 throw new JobNotFoundException("Job has been already deleted");
             }
-            final JobDTO jobDTO = modelMapper.map(job, JobDTO.class);
 
-            return new JobResponse(jobDTO,true,"Job is retrieved");
-
+            return job;
         } else {
             throw new JobNotFoundException("Job is not found");
         }

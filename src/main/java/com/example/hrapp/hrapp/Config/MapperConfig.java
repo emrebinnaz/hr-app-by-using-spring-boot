@@ -5,6 +5,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Configuration
 public class MapperConfig {
 
@@ -13,4 +16,6 @@ public class MapperConfig {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper;
     }
+
+
 }

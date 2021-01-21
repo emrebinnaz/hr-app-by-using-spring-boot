@@ -1,6 +1,8 @@
 package com.example.hrapp.hrapp.Exception;
 
+import com.example.hrapp.hrapp.Exception.Exceptions.ExpiredJobApplicationException;
 import com.example.hrapp.hrapp.Exception.Exceptions.NotFoundExceptions.JobNotFoundException;
+import com.example.hrapp.hrapp.Exception.Exceptions.NotFoundExceptions.NotFoundException;
 import com.example.hrapp.hrapp.Exception.Exceptions.NotUniqueUsernameException;
 import com.example.hrapp.hrapp.Exception.Exceptions.NotFoundExceptions.UserNotFoundException;
 import com.example.hrapp.hrapp.Exception.Response.ExceptionResponse;
@@ -13,7 +15,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -24,10 +25,11 @@ import java.util.List;
 @ControllerAdvice
 @RestController
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
+
     //TODO: Handle bad date format request
 
-    @ExceptionHandler(value = {UserNotFoundException.class})
-    protected ResponseEntity handleUserNotFoundException(UserNotFoundException exception,
+    @ExceptionHandler(value = {NotFoundException.class})
+    protected ResponseEntity handleNotFoundException(NotFoundException exception,
                                                             WebRequest webRequest){
 
         ExceptionResponse exceptionResponse= new ExceptionResponse(new Date(),
@@ -37,15 +39,15 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
         return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = {JobNotFoundException.class})
-    protected ResponseEntity handleJobNotFoundException(JobNotFoundException exception,
-                                                         WebRequest webRequest){
+    @ExceptionHandler(value = {ExpiredJobApplicationException.class})
+    protected ResponseEntity handleNotFoundException(ExpiredJobApplicationException exception,
+                                                     WebRequest webRequest){
 
         ExceptionResponse exceptionResponse= new ExceptionResponse(new Date(),
                 exception.getErrorMessage(),
                 webRequest.getDescription(false));
 
-        return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
@@ -58,16 +60,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
         return new ResponseEntity(exceptionResponse, HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public final ResponseEntity handleInternalServerError(Exception ex, WebRequest request) {
-
-        ExceptionResponse exceptionResponse= new ExceptionResponse(new Date(),
-                "A problem occured",
-                request.getDescription(false));
-
-        return new ResponseEntity(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 
     @ExceptionHandler(value = {NotUniqueUsernameException.class})
     protected ResponseEntity handleNotUniqueUsernameWhenSignUp(NotUniqueUsernameException exception,

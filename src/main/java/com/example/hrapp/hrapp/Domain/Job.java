@@ -36,8 +36,8 @@ public class Job extends AbstractIdEntity {
     @JoinColumn(name = "hrmanager_id")
     private HrManager hrManager;
 
-    @OneToMany(mappedBy = "job",
-            cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "job_id")
     private Set<JobApplication> jobApplications;
 
 }
