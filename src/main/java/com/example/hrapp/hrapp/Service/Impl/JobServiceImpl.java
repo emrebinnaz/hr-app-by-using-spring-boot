@@ -3,7 +3,7 @@ package com.example.hrapp.hrapp.Service.Impl;
 import com.example.hrapp.hrapp.DTO.JobDTO;
 import com.example.hrapp.hrapp.Domain.HrManager;
 import com.example.hrapp.hrapp.Domain.Job;
-import com.example.hrapp.hrapp.Exception.Exceptions.NotFoundExceptions.JobNotFoundException;
+import com.example.hrapp.hrapp.Exception.Exceptions.NotFoundException;
 import com.example.hrapp.hrapp.Repository.JobRepository;
 import com.example.hrapp.hrapp.Response.BaseResponse;
 import com.example.hrapp.hrapp.Service.HrManagerService;
@@ -64,7 +64,7 @@ public class JobServiceImpl implements JobService {
             }
         }
         else {
-            throw new JobNotFoundException("Job is not found");
+            throw new NotFoundException("Job is not found");
         }
     }
 
@@ -97,7 +97,7 @@ public class JobServiceImpl implements JobService {
             }
         }
         else {
-            throw new JobNotFoundException("Job is not found");
+            throw new NotFoundException("Job is not found");
         }
 
         return new BaseResponse(true,"Job has been deleted");
@@ -115,12 +115,12 @@ public class JobServiceImpl implements JobService {
 
             if(job.isDeleted()) {
 
-                throw new JobNotFoundException("Job has been already deleted");
+                throw new NotFoundException("Job has been already deleted");
             }
 
             return job;
         } else {
-            throw new JobNotFoundException("Job is not found");
+            throw new NotFoundException("Job is not found");
         }
 
     }

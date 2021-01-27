@@ -1,11 +1,10 @@
 package com.example.hrapp.hrapp.Service.Impl;
 
-import com.example.hrapp.hrapp.DTO.Request.BaseSignupRequest;
 import com.example.hrapp.hrapp.DTO.Request.HrManagerSignupRequestDTO;
 
 import com.example.hrapp.hrapp.Domain.HrManager;
-import com.example.hrapp.hrapp.Domain.User;
-import com.example.hrapp.hrapp.Exception.Exceptions.NotUniqueUsernameException;
+import com.example.hrapp.hrapp.Domain.Role;
+import com.example.hrapp.hrapp.Exception.Exceptions.NotUniqueException;
 import com.example.hrapp.hrapp.Response.SignupResponse;
 import com.example.hrapp.hrapp.Service.RoleService;
 import com.example.hrapp.hrapp.Service.SignupService;
@@ -13,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 
 
 @Service
@@ -32,13 +33,15 @@ public class SignupServiceImpl implements SignupService {
 
         if(userDetailsService.isUserExists(hrManagerSignupRequest.getUsername())) {
 
-            throw new NotUniqueUsernameException("Please enter another username");
+            throw new NotUniqueException("Please enter another username");
         }
 
         final HrManager hrManager = modelMapper.map(hrManagerSignupRequest, HrManager.class);
+        final Role roleHrManager = roleService.findByName("ROLE_HR_MANAGER");
 
+        hrManager.setRoles(Arrays.asList(roleHrManager));
         hrManager.setPassword(passwordEncoder.encode(hrManagerSignupRequest.getPassword()));
-        hrManager.setRoles(roleService.findAllByName("ROLE_HR_MANAGER"));
+
         userDetailsService.saveUser(hrManager);
 
         return new SignupResponse(true, "Signup successfull");

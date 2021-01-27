@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.ReadOnlyProperty;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +13,11 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobApplicationDTO {
+
+
+    @ReadOnlyProperty()
+    @JsonProperty("id")
+    private String id;
 
     @NotBlank(message = "Address must not be empty !")
     @JsonProperty("applicantAddress")

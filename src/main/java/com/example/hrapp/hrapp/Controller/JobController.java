@@ -30,7 +30,7 @@ public class JobController {
     private final ModelMapper modelMapper;
 
     @PostMapping("/saveJob")
-    @PreAuthorize("hasAuthority('WRITE_JOB_PRIVILEGE')")
+    @PreAuthorize("hasRole('ROLE_HR_MANAGER')")
     public ResponseEntity<BaseResponse> addJob(@RequestBody @Valid JobDTO jobDTO) {
 
         return ResponseEntity.ok(jobService.addJob(jobDTO));
@@ -38,7 +38,7 @@ public class JobController {
     }
 
     @DeleteMapping("/deleteJob/{jobId}")
-    @PreAuthorize("hasAuthority('DELETE_JOB_PRIVILEGE')")
+    @PreAuthorize("hasRole('ROLE_HR_MANAGER')")
     public ResponseEntity<BaseResponse> deleteJob(@PathVariable final String jobId) {
 
         return ResponseEntity.ok(jobService.deleteJob(jobId));
@@ -55,7 +55,7 @@ public class JobController {
     }
 
     @PutMapping("/updateJob/{jobId}")
-    @PreAuthorize("hasAuthority('UPDATE_JOB_PRIVILEGE')")
+    @PreAuthorize("hasRole('ROLE_HR_MANAGER')")
     public ResponseEntity<BaseResponse> updateJob(@PathVariable final String jobId,
                                                   @RequestBody @Valid JobDTO jobDTO) {
 

@@ -1,4 +1,4 @@
-package com.example.hrapp.hrapp.Exception.Exceptions.NotFoundExceptions;
+package com.example.hrapp.hrapp.Exception.Exceptions;
 
 import com.example.hrapp.hrapp.Exception.Exceptions.AbstractBaseException;
 

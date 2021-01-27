@@ -32,7 +32,7 @@ public class JobApplicationController {
     }
 
     @GetMapping("/getAllJobApplicationsBy/{jobId}")
-    @PreAuthorize("hasAuthority('READ_JOB_PRIVILEGE')")
+    @PreAuthorize("hasRole('ROLE_HR_MANAGER')")
     public ResponseEntity<AllJobApplicationsResponse> getAllJobApplicationsBy(@PathVariable final String jobId) {
 
         final List<JobApplication> jobApplications = jobApplicationService.getAllJobApplicationsBy(jobId);
@@ -46,7 +46,7 @@ public class JobApplicationController {
     }
 
     @GetMapping("/getAllJobApplications")
-    @PreAuthorize("hasAuthority('READ_JOB_PRIVILEGE')")
+    @PreAuthorize("hasRole('ROLE_HR_MANAGER')")
     public ResponseEntity<AllJobApplicationsResponse> getAllJobApplications() {
 
         final List<JobApplication> jobApplications = jobApplicationService.getAllJobApplications();
