@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {Navbar,Button,Form,FormControl} from 'react-bootstrap'
-import {InputGroup} from "react-bootstrap";
-import {sendLoginRequest} from "../../requests/LoginRequests";
+import {Navbar,Button} from 'react-bootstrap'
 import {isLogged,getUsernameOfCurrentUser} from "../../Authentication/Authentication";
 import {isUserHrManager} from "../../Authorities/Authorities";
 import { withRouter } from 'react-router-dom';

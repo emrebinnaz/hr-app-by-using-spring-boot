@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import {isUserHrManager} from "../../Authorities/Authorities";
 import {OverlayTrigger, Card, Button, Tooltip} from "react-bootstrap";
@@ -15,12 +14,6 @@ const renderTooltip = (props) => (
 
 
 class JobCard extends Component {
-
-    constructor(props) {
-        super(props);
-
-    }
-
 
     goToJobDetailPage = (e,job) => {
         e.preventDefault();

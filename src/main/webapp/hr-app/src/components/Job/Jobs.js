@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {getAllJobs} from "../../requests/JobRequests";
 import JobCard from "./JobCard";
 import Spinner from 'react-bootstrap/Spinner'
-import {isUserHrManager} from "../../Authorities/Authorities";
 
 class Jobs extends Component {
 
@@ -28,7 +27,8 @@ class Jobs extends Component {
         return (
             <div className = {"container mt-5"}>
                 {
-                    loading ?   <Spinner animation="border" role="status"/>
+                    loading ?   <Spinner animation="border"
+                                         role="status"/>
                             :
                                 jobs.map((job) => {
                                     return (

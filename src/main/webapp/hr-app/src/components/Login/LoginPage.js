@@ -5,11 +5,8 @@ import Form from 'react-bootstrap/Form'
 import {sendLoginRequest} from "../../requests/LoginRequests";
 import {authentication} from "../../Authentication/Authentication";
 import CustomizedSnackbar from "../Other/CustomizedSnackbar";
-class LoginPage extends Component {
 
-    constructor(props) {
-        super(props);
-    }
+class LoginPage extends Component {
 
     state = {
         username : '',

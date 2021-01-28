@@ -1,5 +1,4 @@
-
-import {isLogged,decodedJwtToken} from "../Authentication/Authentication";
+import {decodedJwtToken} from "../Authentication/Authentication";
 
 export const isUserHrManager = () => {
 
