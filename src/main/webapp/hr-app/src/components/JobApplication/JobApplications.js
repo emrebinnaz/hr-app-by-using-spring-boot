@@ -8,7 +8,9 @@ class JobApplications extends Component {
 
     state = {
         jobApplications : [],
-        loading : true
+        loading : true,
+        showApplicantInformation : false,
+        clickedJobApplication : ''
     }
 
     componentDidMount = async  () =>{
@@ -22,12 +24,24 @@ class JobApplications extends Component {
 
     }
 
-    showApplicantInformation = (e, jobApplication) =>{
-        return <div><ApplicantInformationModal open = {true}/></div>;
+    showApplicantInformation = (e,jobApplication) =>{
+
+        e.preventDefault()
+        this.setState({
+            showApplicantInformation : true,
+            clickedJobApplication : jobApplication
+        })
+    }
+
+    closeApplicantInformation = (e,jobApplication) => {
+
+        this.setState({
+            showApplicantInformation : false
+        })
     }
 
     render() {
-        const {loading, jobApplications} = this.state;
+        const {loading, jobApplications,showApplicantInformation,clickedJobApplication} = this.state;
         return (
             <Card>
                 <Card.Header>Applications</Card.Header>
@@ -44,10 +58,17 @@ class JobApplications extends Component {
                                            key ={jobApplication.id}
                                            className = {"d-block"}>
                                         {`${jobApplication.applicantName} ${jobApplication.applicantSurname} iş başvurusu görüntüle`}
+
                                     </Link>
                                 )
                             })
                 }
+                    {showApplicantInformation ?
+                        <ApplicantInformationModal jobApplication = {clickedJobApplication}
+                                                   handleClose = {this.closeApplicantInformation}/>
+                        :
+                        null
+                    }
                 </Card.Body>
             </Card>
         );
