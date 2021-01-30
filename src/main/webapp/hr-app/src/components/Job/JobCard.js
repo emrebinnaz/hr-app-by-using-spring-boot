@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import { withRouter } from 'react-router-dom';
 import {isUserHrManager} from "../../Authorities/Authorities";
 import {OverlayTrigger, Card, Button, Tooltip} from "react-bootstrap";
+import {formatDate} from "../../Helpers/DateFormat";
+import {sendDeleteJobRequest} from "../../requests/JobRequests";
+import CustomizedSnackbar from "../Other/CustomizedSnackbar";
 
 const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
@@ -15,6 +18,12 @@ const renderTooltip = (props) => (
 
 class JobCard extends Component {
 
+    state = {
+        isDeleted : false,
+        message : '',
+        isShowMessage : false,
+    }
+
     goToJobDetailPage = (e,job) => {
         e.preventDefault();
         this.props.history.push(`/viewJobDetails/${job.id}`);
@@ -22,22 +31,44 @@ class JobCard extends Component {
     }
 
     goToEditJobPage = (e,jobId) => {
+        e.preventDefault();
+        this.props.history.push(`/editJob/${jobId}`);
+    }
+
+    deleteJob = async (e,jobId) => {
+        e.preventDefault();
+        const response = await sendDeleteJobRequest(jobId);
+
+        this.setState({
+            isDeleted : response.data.success,
+            message : response.data.message
+        })
+        this.showMessage();
+        this.setJobs();
 
     }
 
-    deleteJob = (e,jobId) => {
-        //TODO: Write delete request in request folder
+    showMessage = () =>{
+        this.setState({
+            isShowMessage : true,
+        })
+    }
+
+    closeMessage = () => {
+        this.setState({
+            isShowMessage : false
+        })
     }
 
     render() {
         const {job} = this.props;
-
+        const {isDeleted,message,isShowMessage} = this.state;
         return (
             <div className={"col-md-6 float-left mt-5"}>
                 <Card>
                     <Card.Header as="h5">{job.title}</Card.Header>
                     <Card.Body>
-                        <Card.Title> Son başvuru tarihi : {job.lastApplicationDate}</Card.Title>
+                        <Card.Title> Son başvuru tarihi : {formatDate(job.lastApplicationDate)}</Card.Title>
                         <div>
                             <OverlayTrigger placement="right"
                                             delay={{ show: 250, hide: 400 }}
@@ -57,11 +88,23 @@ class JobCard extends Component {
                                             onClick={(e) => this.deleteJob(e,job.id)}>Delete Job
                                     </Button>
                                 </div> :
+
                                 null
                             }
                         </div>
                     </Card.Body>
                 </Card>
+                {isShowMessage ?
+                    <CustomizedSnackbar
+                        vertical={"bottom"}
+                        horizontal={"right"}
+                        open = {isShowMessage}
+                        handleClose = {this.closeMessage}
+                        message={message}
+                        messageType={isDeleted ? "SUCCESS" : "ERROR" }/>
+                    :
+                    null
+                }
             </div>
         );
     }

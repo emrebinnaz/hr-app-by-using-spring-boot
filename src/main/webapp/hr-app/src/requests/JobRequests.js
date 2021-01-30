@@ -25,3 +25,26 @@ export const sendAddJobRequest = async (job) => {
         return err.response;
     })
 }
+
+export const sendDeleteJobRequest =  async (jobId) => {
+
+    return await axios.delete(`/deleteJob/${jobId}`,{
+        headers:{
+            'Authorization' : "Bearer " + jwtToken
+        }
+
+    }).catch(err => {
+        return err.response;
+    })
+}
+
+export const sendUpdateJobRequest = async (job,jobId) => {
+
+   return await axios.put(`/updateJob/${jobId}`, job,{
+        headers : {
+            'Authorization' : "Bearer " + jwtToken
+        }
+    }).catch(err => {
+       return err.response;
+    });
+}

@@ -12,7 +12,6 @@ class JobDetailCard extends Component {
                 <Card className="text-center">
                     <Card.Header>{job.title}</Card.Header>
                     <Card.Body>
-                        <Card.Title>{job.title}</Card.Title>
                         <Card.Text>
                             {job.description}
                         </Card.Text>

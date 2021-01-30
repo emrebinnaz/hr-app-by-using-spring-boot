@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Card, Form, Button, Col, InputGroup} from 'react-bootstrap';
 import {getCurrentDate} from "../../../Helpers/DateFormat";
 import {sendAddJobRequest} from "../../../requests/JobRequests";
+import CustomizedSnackbar from "../../Other/CustomizedSnackbar";
 
 class AddJobForm extends Component {
     constructor(props) {
@@ -14,9 +15,9 @@ class AddJobForm extends Component {
         lastApplicationDate : '',
         numberOfPeopleToHire : 0,
         title : '',
-        isAdded : false,
         isSubmittedForm : false,
-        message : ''
+        message : '',
+        success : false
     }
 
     resetAllInputs = () =>{
@@ -39,20 +40,32 @@ class AddJobForm extends Component {
         const { title,
             description,
             lastApplicationDate,
-            numberOfPeopleToHire,
-            isAdded,
-            message,
-            isSubmittedForm} = this.state
+            numberOfPeopleToHire} = this.state
 
-        var job = {
+        const job = {
             title,
             description,
             lastApplicationDate,
             numberOfPeopleToHire,
-        }
+        };
         const response = await sendAddJobRequest(job);
-        console.log(response);
 
+        this.showMessage(response.data);
+
+    }
+
+    showMessage = (data) =>{
+        this.setState({
+            isSubmittedForm : true,
+            message :data.message,
+            success : data.success
+        })
+    }
+
+    closeMessage = () => {
+        this.setState({
+            isSubmittedForm : false
+        })
     }
 
     render() {
@@ -60,7 +73,7 @@ class AddJobForm extends Component {
                 description,
                 lastApplicationDate,
                 numberOfPeopleToHire,
-                isAdded,
+                success,
                 message,
                 isSubmittedForm} = this.state
         return (
@@ -136,6 +149,17 @@ class AddJobForm extends Component {
                         </Card.Footer>
                     </Form>
                 </Card>
+                {isSubmittedForm ?
+                    <CustomizedSnackbar
+                        vertical={"bottom"}
+                        horizontal={"right"}
+                        open = {isSubmittedForm}
+                        handleClose = {this.closeMessage}
+                        message={message}
+                        messageType={success ? "SUCCESS" : "ERROR" }/>
+                    :
+                    null
+                }
             </div>
         );
     }

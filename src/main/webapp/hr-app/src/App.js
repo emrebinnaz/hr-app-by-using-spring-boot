@@ -15,7 +15,7 @@ function App() {
           <Route exact path = {"/"} component = {Homepage}/>
           <Route exact path = {"/login"} component = {LoginPage}/>
           <HrManagerRoute exact path = {"/addJob"} component = {AddJobForm}/>
-          <HrManagerRoute exact path = {"/editJob:jobId"} component = {EditJobForm}/>
+          <HrManagerRoute exact path = {"/editJob/:jobId"} component = {EditJobForm}/>
           <Route exact path = {"/viewJobDetails/:jobId"}  component = {JobDetails}/>
         </Switch>
       </Router>
