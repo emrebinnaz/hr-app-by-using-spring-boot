@@ -30,7 +30,7 @@ class AddJobForm extends Component {
         });
     }
 
-    handleKeyDown = (e) =>  {
+    handleKey = (e) =>  {
         e.target.style.height = 'inherit';
         e.target.style.height = `${e.target.scrollHeight}px`;
     }
@@ -129,7 +129,8 @@ class AddJobForm extends Component {
                                         <Form.Control required autoComplete="off"
                                                       as = "textarea"
                                                       type="text" name="description"
-                                                      onKeyDown = {this.handleKeyDown}
+                                                      onKeyDown = {this.handleKey}
+                                                      onKeyUp  = {this.handleKey}
                                                       value={description}
                                                       onChange={(e) => this.changeInput(e)}
                                                       className={"bg-dark text-white"}

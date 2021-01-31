@@ -11,3 +11,12 @@ export const getJobApplicationsBy = async (jobId) => {
         return err.response;
     });
 }
+
+export const applyToJob = async (jobApplication,jobId) => {
+
+    return await axios.post(`/applyToJob/${jobId}`,jobApplication).
+
+    catch(err => {
+        return err.response;
+    })
+}

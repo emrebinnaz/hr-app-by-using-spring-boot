@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getJob, sendAddJobRequest} from "../../../requests/JobRequests";
+import {getJob} from "../../../requests/JobRequests";
 import {Button, Card, Col, Form, InputGroup} from "react-bootstrap";
 import {getCurrentDate} from "../../../Helpers/DateFormat";
 import CustomizedSnackbar from "../../Other/CustomizedSnackbar";
@@ -37,12 +37,12 @@ class EditJobForm extends Component {
         });
     }
 
-    handleKeyDown = (e) =>  {
+    handleKey= (e) =>  {
         e.target.style.height = 'inherit';
         e.target.style.height = `${e.target.scrollHeight}px`;
     }
 
-    editJob = async(e) => {
+    updateJob = async(e) => {
         e.preventDefault();
         const {jobId} = this.props.match.params;
         const { title,
@@ -89,7 +89,7 @@ class EditJobForm extends Component {
                 <Card className={"container w-50 mt-5"}>
                     <Card.Header>Add Job</Card.Header>
                     <Form onReset = {this.resetAllInputs}
-                          onSubmit = {(e) => this.editJob(e)}>
+                          onSubmit = {(e) => this.updateJob(e)}>
                         <Card.Body>
                             <Form.Row>
                                 <Form.Group as={Col} controlId="formGridTitle">
@@ -137,8 +137,9 @@ class EditJobForm extends Component {
                                         <Form.Control required autoComplete="off"
                                                       as = "textarea"
                                                       type="text" name="description"
-                                                      onKeyDown = {this.handleKeyDown}
+                                                      onKeyDown = {this.handleKey}
                                                       value={description}
+                                                      onKeyUp  = {this.handleKey}
                                                       onChange={(e) => this.changeInput(e)}
                                                       className={"bg-dark text-white"}
                                                       placeholder="Job Description"/>
@@ -151,7 +152,6 @@ class EditJobForm extends Component {
                             <Button variant="success" type="submit" disabled = {isSubmittedForm}>
                                 Submit
                             </Button>
-
                         </Card.Footer>
                     </Form>
                 </Card>

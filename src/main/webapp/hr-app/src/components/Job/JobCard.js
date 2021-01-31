@@ -5,6 +5,7 @@ import {OverlayTrigger, Card, Button, Tooltip} from "react-bootstrap";
 import {formatDate} from "../../Helpers/DateFormat";
 import {sendDeleteJobRequest} from "../../requests/JobRequests";
 import CustomizedSnackbar from "../Other/CustomizedSnackbar";
+import DeletedJobModal from "./DeletedJobModal";
 
 const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
@@ -22,6 +23,8 @@ class JobCard extends Component {
         isDeleted : false,
         message : '',
         isShowMessage : false,
+        clickedJob : '',
+        isShowDeletedJob : false
     }
 
     goToJobDetailPage = (e,job) => {
@@ -35,17 +38,36 @@ class JobCard extends Component {
         this.props.history.push(`/editJob/${jobId}`);
     }
 
+    showDeleteModal = (e,job) => {
+        e.preventDefault()
+        this.setState({
+            isShowDeletedJob : true,
+            clickedJob : job
+        })
+    }
+
     deleteJob = async (e,jobId) => {
+
         e.preventDefault();
         const response = await sendDeleteJobRequest(jobId);
 
         this.setState({
+
             isDeleted : response.data.success,
             message : response.data.message
-        })
-        this.showMessage();
-        this.setJobs();
 
+        }, () => {
+            const {isDeleted,message} = this.state;
+
+            this.showMessage();
+
+            if(isDeleted) {
+                setTimeout(() => {
+                    this.props.handleDelete(jobId);
+                },1500)
+            }
+
+        })
     }
 
     showMessage = () =>{
@@ -60,9 +82,16 @@ class JobCard extends Component {
         })
     }
 
+    closeDeletedJobModal = () => {
+
+        this.setState({
+            isShowDeletedJob : false
+        })
+    }
+
     render() {
         const {job} = this.props;
-        const {isDeleted,message,isShowMessage} = this.state;
+        const {isDeleted,message,isShowMessage,isShowDeletedJob,clickedJob} = this.state;
         return (
             <div className={"col-md-6 float-left mt-5"}>
                 <Card>
@@ -85,7 +114,7 @@ class JobCard extends Component {
                                     </Button>
 
                                     <Button variant={"danger"}
-                                            onClick={(e) => this.deleteJob(e,job.id)}>Delete Job
+                                            onClick={(e) => this.showDeleteModal(e,job)}>Delete Job
                                     </Button>
                                 </div> :
 
@@ -103,6 +132,12 @@ class JobCard extends Component {
                         message={message}
                         messageType={isDeleted ? "SUCCESS" : "ERROR" }/>
                     :
+                    null
+                }
+                {isShowDeletedJob ?  <DeletedJobModal job = {clickedJob}
+                                                      handleClose = {this.closeDeletedJobModal}
+                                                      handleDelete = {(e) => {this.deleteJob(e,clickedJob.id)}}/>
+                                                      :
                     null
                 }
             </div>

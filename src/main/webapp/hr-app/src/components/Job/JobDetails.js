@@ -30,7 +30,11 @@ class JobDetails extends Component {
         return (
             <div className={"mt-5 d-flex justify-content-around container"}>
                 <JobDetailCard job = {job}></JobDetailCard>
-                {isUserHrManager() ? <JobApplications jobId = {jobId}/> : <JobApplicationForm/> }
+                {isUserHrManager() ?
+                    <JobApplications jobId = {jobId}/>
+                    :
+                    <JobApplicationForm jobId = {jobId}/>
+                }
             </div>
         );
     }

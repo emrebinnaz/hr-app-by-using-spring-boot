@@ -1,4 +1,3 @@
 1 - Spinner'ı ortala.
 2 - check me out için birşeyler düşün.
 3 - Last application date'i geçmiş bir işe başvur.
-4 - Delete job için modal oluştur.

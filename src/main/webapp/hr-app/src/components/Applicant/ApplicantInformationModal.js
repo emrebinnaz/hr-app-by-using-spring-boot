@@ -1,11 +1,10 @@
 import Modal from 'react-bootstrap/Modal'
 import {useState} from "react";
-import {Button,ListGroup} from "react-bootstrap";
+import {InputGroup, ListGroup} from "react-bootstrap";
 
 export default function ApplicantInformationModal(props) {
     const [show, setShow] = useState(true);
     const {jobApplication} = props;
-
     const closeModal = () => {
         setShow(false)
         props.handleClose();
@@ -59,11 +58,11 @@ export default function ApplicantInformationModal(props) {
                         </ListGroup.Item>
                         <ListGroup.Item>
                             Thoughts of applicant on the Job :
-                            <textarea className={"font-weight-bold form-control"}
+                            <InputGroup className={"font-weight-bold form-control"}
                                       readOnly={true}
-                                      rows={20}>
+                                      rows={2}>
                                 {jobApplication.thoughtsOfApplicantOnTheJob}
-                            </textarea>
+                            </InputGroup>
                         </ListGroup.Item>
                     </ListGroup>
                 </Modal.Body>

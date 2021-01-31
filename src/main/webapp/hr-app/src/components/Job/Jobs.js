@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {getAllJobs} from "../../requests/JobRequests";
 import JobCard from "./JobCard";
 import Spinner from 'react-bootstrap/Spinner'
-
 class Jobs extends Component {
 
     constructor(props) {
@@ -22,6 +21,13 @@ class Jobs extends Component {
         })
     }
 
+    handleDelete = (jobId) => {
+        const jobs = this.state.jobs.filter(job => job.id !== jobId)
+        this.setState({
+            jobs : jobs
+        })
+    }
+
     render() {
         const {jobs,loading} = this.state;
         return (
@@ -32,7 +38,9 @@ class Jobs extends Component {
                             :
                                 jobs.map((job) => {
                                     return (
-                                        <JobCard job = {job} key ={job.id}></JobCard>
+                                        <JobCard job = {job}
+                                                 key ={job.id}
+                                                 handleDelete = {this.handleDelete}/>
                                     )
                                 })
                 }
