@@ -1,6 +1,7 @@
 import Modal from 'react-bootstrap/Modal'
 import {useState} from "react";
 import {InputGroup, ListGroup} from "react-bootstrap";
+import {getResume} from "../../requests/FileRequests";
 
 export default function ApplicantInformationModal(props) {
     const [show, setShow] = useState(true);
@@ -9,6 +10,15 @@ export default function ApplicantInformationModal(props) {
     const closeModal = () => {
         setShow(false)
         props.handleClose();
+    }
+
+    const showResume = async (e, jobApplicationId) => {
+        e.preventDefault();
+
+        await getResume(jobApplicationId).then(response => {
+            const url = window.URL.createObjectURL(new Blob([response.data], {type: 'application/pdf'}));
+            window.open(url);
+        });
     }
 
     return (
@@ -55,6 +65,13 @@ export default function ApplicantInformationModal(props) {
                                       readOnly={true}>
                                 {jobApplication.thoughtsOfApplicantOnTheJob}
                             </InputGroup>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+
+                            <button className={"btn btn-dark"}
+                                    onClick={(e) => showResume(e,jobApplication.id)}>
+                                Show applicant resume
+                            </button>
                         </ListGroup.Item>
                     </ListGroup>
                 </Modal.Body>

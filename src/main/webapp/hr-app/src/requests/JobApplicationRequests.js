@@ -23,8 +23,7 @@ export const applyToJob = async (jobApplication,jobId) => {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
-    }).
-    catch(err => {
+    }).catch(err => {
         return err.response;
     })
 }

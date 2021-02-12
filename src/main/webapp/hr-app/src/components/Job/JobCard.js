@@ -57,10 +57,8 @@ class JobCard extends Component {
             message : response.data.message
 
         }, () => {
-            const {isDeleted,message} = this.state;
-
+            const {isDeleted} = this.state;
             this.showMessage();
-
             if(isDeleted) {
                 setTimeout(() => {
                     this.props.handleDelete(jobId);

@@ -45,7 +45,7 @@ public class JobApplicationController {
 
         final Type listType = new TypeToken<List<JobApplicationDTO>>(){}.getType();
         List<JobApplicationDTO> jobApplicationsDtoList = modelMapper.map(jobApplications, listType);
-        System.out.println(jobApplicationsDtoList.get(0).toString());
+
         return ResponseEntity.ok(new AllJobApplicationsResponse("All jobs are retrieved",
                 true,
                 jobApplicationsDtoList));

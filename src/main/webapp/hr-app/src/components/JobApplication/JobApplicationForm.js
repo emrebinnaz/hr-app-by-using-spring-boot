@@ -79,7 +79,6 @@ class JobApplicationForm extends Component {
             applicantName,
             applicantEmail,
             applicantPhone,
-            applicantResume,
             applicantSurname ,
             thoughtsOfApplicantOnTheJob,
             isSubmittedForm,

@@ -4,6 +4,8 @@ import com.example.hrapp.hrapp.DTO.JobApplicationDTO;
 import com.example.hrapp.hrapp.Domain.Job;
 import com.example.hrapp.hrapp.Domain.JobApplication;
 import com.example.hrapp.hrapp.Exception.Exceptions.ExpiredJobApplicationException;
+import com.example.hrapp.hrapp.Exception.Exceptions.NotFoundException;
+import com.example.hrapp.hrapp.Exception.Exceptions.WrongFileFormatException;
 import com.example.hrapp.hrapp.Repository.JobApplicationRepository;
 import com.example.hrapp.hrapp.Response.BaseResponse;
 import com.example.hrapp.hrapp.Service.JobApplicationService;
@@ -15,9 +17,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -42,11 +46,23 @@ public class JobApplicationServiceImpl implements JobApplicationService {
             throw new ExpiredJobApplicationException("Last application date of job is passed");
         }
         final JobApplication jobApplication = modelMapper.map(jobApplicationDTO, JobApplication.class);
+
+        if(!isFilePdf(resume.getOriginalFilename())) {
+
+            throw new WrongFileFormatException("Please upload pdf file");
+        }
+
         jobApplication.setApplicantResume(resume.getBytes());
         jobApplication.setJob(job);
         jobApplicationRepository.save(jobApplication);
 
         return new BaseResponse(true, "Job application successful !");
+    }
+
+    private boolean isFilePdf(final String fileName) {
+        Pattern pdfCheck = Pattern.compile("^.*\\.pdf$", Pattern.CASE_INSENSITIVE);
+
+        return pdfCheck.matcher(fileName).find();
     }
 
     @Override
@@ -62,6 +78,18 @@ public class JobApplicationServiceImpl implements JobApplicationService {
     public List<JobApplication> getAllJobApplications() {
 
         return jobApplicationRepository.findAll();
+    }
+
+    @Override
+    public JobApplication getJobApplicationBy(final String jobApplicationId) {
+        final UUID uuid = UUID.fromString(jobApplicationId);
+        if(!jobApplicationRepository.existsById(uuid)) {
+
+            throw new NotFoundException("Job Application is not found");
+        }
+        final Optional<JobApplication> optionalJobApplication = jobApplicationRepository.findById(uuid);
+
+        return optionalJobApplication.get();
     }
 
     public boolean isLastApplicationDatePassed(final LocalDate lastApplicationDate) {

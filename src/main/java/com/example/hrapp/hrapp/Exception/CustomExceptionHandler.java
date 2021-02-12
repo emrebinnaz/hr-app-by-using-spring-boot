@@ -3,6 +3,7 @@ package com.example.hrapp.hrapp.Exception;
 import com.example.hrapp.hrapp.Exception.Exceptions.ExpiredJobApplicationException;
 import com.example.hrapp.hrapp.Exception.Exceptions.NotFoundException;
 import com.example.hrapp.hrapp.Exception.Exceptions.NotUniqueException;
+import com.example.hrapp.hrapp.Exception.Exceptions.WrongFileFormatException;
 import com.example.hrapp.hrapp.Exception.Response.ExceptionResponse;
 
 import org.springframework.http.HttpHeaders;
@@ -60,6 +61,17 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler{
     @ExceptionHandler(value = {NotUniqueException.class})
     protected ResponseEntity handleNotUniqueUsernameWhenSignUp(NotUniqueException exception,
                                                          WebRequest webRequest){
+
+        ExceptionResponse exceptionResponse= new ExceptionResponse(new Date(),
+                exception.getErrorMessage(),
+                webRequest.getDescription(false));
+
+        return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = {WrongFileFormatException.class})
+    protected ResponseEntity handleFileFormat(WrongFileFormatException exception,
+                                                               WebRequest webRequest){
 
         ExceptionResponse exceptionResponse= new ExceptionResponse(new Date(),
                 exception.getErrorMessage(),
