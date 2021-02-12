@@ -5,10 +5,10 @@ import {InputGroup, ListGroup} from "react-bootstrap";
 export default function ApplicantInformationModal(props) {
     const [show, setShow] = useState(true);
     const {jobApplication} = props;
+
     const closeModal = () => {
         setShow(false)
         props.handleClose();
-
     }
 
     return (
@@ -17,11 +17,10 @@ export default function ApplicantInformationModal(props) {
                 show={show}
                 onHide={closeModal}
                 dialogClassName="modal-90w"
-                aria-labelledby="example-custom-modal-styling-title"
-            >
+                aria-labelledby="example-custom-modal-styling-title">
                 <Modal.Header closeButton>
                     <Modal.Title id="example-custom-modal-styling-title">
-                        Custom Modal Styling
+                        Job Application Information
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -51,16 +50,9 @@ export default function ApplicantInformationModal(props) {
                             </span>
                         </ListGroup.Item>
                         <ListGroup.Item>
-                            Applicant Resume :
-                            <span className={"font-weight-bold"}>
-                                {jobApplication.applicantResume}
-                            </span>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
                             Thoughts of applicant on the Job :
                             <InputGroup className={"font-weight-bold form-control"}
-                                      readOnly={true}
-                                      rows={2}>
+                                      readOnly={true}>
                                 {jobApplication.thoughtsOfApplicantOnTheJob}
                             </InputGroup>
                         </ListGroup.Item>

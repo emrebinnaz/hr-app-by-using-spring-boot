@@ -13,9 +13,17 @@ export const getJobApplicationsBy = async (jobId) => {
 }
 
 export const applyToJob = async (jobApplication,jobId) => {
+    const jobApplicationForm = new FormData();
+    jobApplicationForm.append("resume",jobApplication.applicantResume);
+    jobApplication.applicantResume = "";
+    jobApplication = JSON.stringify(jobApplication)
+    jobApplicationForm.append("jobApplication",jobApplication);
 
-    return await axios.post(`/applyToJob/${jobId}`,jobApplication).
-
+    return await axios.post(`/applyToJob/${jobId}`,jobApplicationForm, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }).
     catch(err => {
         return err.response;
     })

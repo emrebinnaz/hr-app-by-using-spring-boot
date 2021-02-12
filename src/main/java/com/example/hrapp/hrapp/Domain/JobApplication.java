@@ -26,8 +26,8 @@ public class JobApplication extends AbstractIdEntity {
     @NotBlank()
     private String thoughtsOfApplicantOnTheJob;
 
-    @NotBlank()
-    private String applicantResume;
+    @Lob
+    private byte [] applicantResume;
 
     @NotBlank()
     private String applicantEmail;

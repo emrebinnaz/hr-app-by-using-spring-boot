@@ -9,10 +9,13 @@ import com.example.hrapp.hrapp.Response.BaseResponse;
 import com.example.hrapp.hrapp.Service.JobApplicationService;
 import com.example.hrapp.hrapp.Service.JobService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,7 +31,9 @@ public class JobApplicationServiceImpl implements JobApplicationService {
 
     @Override
     @Transactional
+    @SneakyThrows
     public BaseResponse applyToJob(final JobApplicationDTO jobApplicationDTO,
+                                   final MultipartFile resume,
                                    final String jobId) {
 
         final Job job = jobService.getJob(jobId);
@@ -37,7 +42,7 @@ public class JobApplicationServiceImpl implements JobApplicationService {
             throw new ExpiredJobApplicationException("Last application date of job is passed");
         }
         final JobApplication jobApplication = modelMapper.map(jobApplicationDTO, JobApplication.class);
-
+        jobApplication.setApplicantResume(resume.getBytes());
         jobApplication.setJob(job);
         jobApplicationRepository.save(jobApplication);
 
@@ -45,6 +50,7 @@ public class JobApplicationServiceImpl implements JobApplicationService {
     }
 
     @Override
+    @Transactional
     public List<JobApplication> getAllJobApplicationsBy(final String jobId) {
 
         final Job job = jobService.getJob(jobId);

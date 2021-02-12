@@ -8,9 +8,11 @@ import com.example.hrapp.hrapp.Service.JobApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.lang.reflect.Type;
@@ -24,11 +26,15 @@ public class JobApplicationController {
 
     private final ModelMapper modelMapper;
 
-    @PostMapping("/applyToJob/{jobId}")
-    public ResponseEntity<BaseResponse> applyToJob(@RequestBody @Valid JobApplicationDTO jobApplicationDTO,
+    @PostMapping(value = "/applyToJob/{jobId}",
+                 headers = "content-type=multipart/form-data",
+                 consumes = "multipart/form-data")
+    public ResponseEntity<BaseResponse> applyToJob(@RequestParam("jobApplication") @Valid JobApplicationDTO jobApplicationDTO,
+                                                   @RequestParam("resume") MultipartFile resume,
                                                    @PathVariable final String jobId) {
+        final BaseResponse baseResponse = jobApplicationService.applyToJob(jobApplicationDTO, resume, jobId);
+        return ResponseEntity.ok(baseResponse);
 
-        return ResponseEntity.ok(jobApplicationService.applyToJob(jobApplicationDTO, jobId));
     }
 
     @GetMapping("/getAllJobApplicationsBy/{jobId}")
@@ -39,7 +45,7 @@ public class JobApplicationController {
 
         final Type listType = new TypeToken<List<JobApplicationDTO>>(){}.getType();
         List<JobApplicationDTO> jobApplicationsDtoList = modelMapper.map(jobApplications, listType);
-
+        System.out.println(jobApplicationsDtoList.get(0).toString());
         return ResponseEntity.ok(new AllJobApplicationsResponse("All jobs are retrieved",
                 true,
                 jobApplicationsDtoList));

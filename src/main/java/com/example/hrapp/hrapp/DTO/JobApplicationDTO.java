@@ -1,19 +1,21 @@
 package com.example.hrapp.hrapp.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.ReadOnlyProperty;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobApplicationDTO {
-
+public class JobApplicationDTO{
 
     @ReadOnlyProperty()
     @JsonProperty("id")
@@ -36,10 +38,6 @@ public class JobApplicationDTO {
     @JsonProperty("applicantPhone")
     private String applicantPhone;
 
-    @NotBlank(message = "Resume must not be empty !")
-    @JsonProperty("applicantResume")
-    private String applicantResume;
-
     @NotBlank(message = "Surname must not be empty !")
     @JsonProperty("applicantSurname")
     private String applicantSurname;
@@ -47,5 +45,4 @@ public class JobApplicationDTO {
     @NotBlank(message = "Thoughts on the job must not be empty !")
     @JsonProperty("thoughtsOfApplicantOnTheJob")
     private String thoughtsOfApplicantOnTheJob;
-
 }

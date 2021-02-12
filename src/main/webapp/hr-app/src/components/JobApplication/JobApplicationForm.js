@@ -10,7 +10,7 @@ class JobApplicationForm extends Component {
         applicantName : '',
         applicantEmail : 0,
         applicantPhone : '',
-        applicantResume : '',
+        applicantResume : null,
         applicantSurname : '',
         thoughtsOfApplicantOnTheJob : '',
         isSubmittedForm : false,
@@ -30,7 +30,7 @@ class JobApplicationForm extends Component {
 
     applyToJob = async (e) => {
         const {jobId} = this.props;
-        console.log(jobId);
+
         e.preventDefault();
         const {applicantAddress,
             applicantName,
@@ -38,10 +38,7 @@ class JobApplicationForm extends Component {
             applicantPhone,
             applicantResume,
             applicantSurname ,
-            thoughtsOfApplicantOnTheJob,
-            isSubmittedForm,
-            message,
-            success} = this.state;
+            thoughtsOfApplicantOnTheJob} = this.state;
 
         const jobApplication = {
             applicantName,
@@ -54,11 +51,10 @@ class JobApplicationForm extends Component {
         };
         const response = await applyToJob(jobApplication,jobId);
 
-        console.log(response.data);
         this.showMessage(response.data);
     }
-    showMessage = (data) =>{
 
+    showMessage = (data) =>{
         this.setState({
             isSubmittedForm : true,
             message :data.message,
@@ -69,6 +65,12 @@ class JobApplicationForm extends Component {
     closeMessage = () => {
         this.setState({
             isSubmittedForm : false
+        })
+    }
+
+    setResume = (e) => {
+        this.setState({
+            applicantResume : e.target.files[0]
         })
     }
 
@@ -88,7 +90,8 @@ class JobApplicationForm extends Component {
                 <Card>
                     <Card.Header className={"text-center"}>Job Application Form</Card.Header>
                     <Card.Body>
-                        <Form onSubmit = {(e) => this.applyToJob(e)}>
+                        <Form onSubmit = {(e) => this.applyToJob(e)}
+                              enctype="multipart/form-data">
                             <Form.Row>
 
                                 <Form.Group as={Col} controlId="formGridName">
@@ -120,15 +123,6 @@ class JobApplicationForm extends Component {
                                                   onChange={(e) => this.changeInput(e)}
                                                   type = "text"/>
 
-                                </Form.Group>
-                                    <Form.Group  as={Col} controlId="formGridResume">
-                                    <Form.Label>Resume</Form.Label>
-                                    <Form.Control placeholder="Resume"
-                                                  required
-                                                  name = "applicantResume"
-                                                  value = {applicantResume}
-                                                  onChange={(e) => this.changeInput(e)}
-                                                  type = "text"/>
                                 </Form.Group>
                             </Form.Row>
                             <Form.Row>
@@ -166,6 +160,12 @@ class JobApplicationForm extends Component {
                                     </InputGroup>
                                 </Form.Group>
                             </Form.Row>
+                            <Form.Group>
+                                <input type ="file"
+                                       name = "applicantResume"
+                                       required={true}
+                                       onChange={(e) => this.setResume(e)}/>
+                            </Form.Group>
                             <Button variant="primary" type="submit">
                                 Submit
                             </Button>
