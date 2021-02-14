@@ -2,7 +2,10 @@ package com.example.hrapp.hrapp.Domain;
 
 import com.example.hrapp.hrapp.Domain.Common.AbstractIdEntity;
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,6 +14,8 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "jobs")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Job extends AbstractIdEntity {
 
     @Column(name = "title")

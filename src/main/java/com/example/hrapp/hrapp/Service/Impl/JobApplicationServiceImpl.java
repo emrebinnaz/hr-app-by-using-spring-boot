@@ -1,6 +1,5 @@
 package com.example.hrapp.hrapp.Service.Impl;
 
-import com.example.hrapp.hrapp.DTO.JobApplicationDTO;
 import com.example.hrapp.hrapp.Domain.Job;
 import com.example.hrapp.hrapp.Domain.JobApplication;
 import com.example.hrapp.hrapp.Exception.Exceptions.ExpiredJobApplicationException;
@@ -12,7 +11,6 @@ import com.example.hrapp.hrapp.Service.JobApplicationService;
 import com.example.hrapp.hrapp.Service.JobService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,24 +26,19 @@ import java.util.regex.Pattern;
 public class JobApplicationServiceImpl implements JobApplicationService {
 
     private final JobApplicationRepository jobApplicationRepository;
-
     private final JobService jobService;
-
-    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
     @SneakyThrows
-    public BaseResponse applyToJob(final JobApplicationDTO jobApplicationDTO,
+    public BaseResponse applyToJob(final JobApplication jobApplication,
                                    final MultipartFile resume,
                                    final String jobId) {
-
         final Job job = jobService.getJob(jobId);
         if(isLastApplicationDatePassed(job.getLastApplicationDate())) {
 
             throw new ExpiredJobApplicationException("Last application date of job is passed");
         }
-        final JobApplication jobApplication = modelMapper.map(jobApplicationDTO, JobApplication.class);
 
         if(!isFilePdf(resume.getOriginalFilename())) {
 

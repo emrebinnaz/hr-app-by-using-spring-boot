@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface JobApplicationService {
 
-    BaseResponse applyToJob(JobApplicationDTO jobApplicationDTO, MultipartFile resume, String jobId);
+    BaseResponse applyToJob(JobApplication jobApplication, MultipartFile resume, String jobId);
 
     List<JobApplication> getAllJobApplicationsBy(String jobId);
 

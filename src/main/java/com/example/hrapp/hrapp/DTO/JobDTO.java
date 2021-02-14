@@ -2,8 +2,9 @@ package com.example.hrapp.hrapp.DTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.ReadOnlyProperty;
@@ -13,8 +14,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class JobDTO implements Serializable {
 
     @ReadOnlyProperty()

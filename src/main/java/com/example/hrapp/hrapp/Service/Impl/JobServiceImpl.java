@@ -24,17 +24,13 @@ import java.util.stream.Collectors;
 public class JobServiceImpl implements JobService {
 
     private final ModelMapper modelMapper;
-
     private final JobRepository jobRepository;
-
     private final AuthenticationFacade authenticationFacade;
-
     private final HrManagerService hrManagerService;
 
     @Override
-    public BaseResponse addJob(final JobDTO jobDTO) {
+    public BaseResponse addJob(final Job job) {
 
-        final Job job = modelMapper.map(jobDTO, Job.class);
         String username = getUsernameOfCurrentUser();
         HrManager hrManager = hrManagerService.getCurrentHrManagerBy(username);
         job.setHrManager(hrManager);
@@ -79,8 +75,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public BaseResponse deleteJob(String id) {
-
+    public BaseResponse deleteJob(final String id) {
         UUID uuid = UUID.fromString(id);
 
         final Optional<Job> jobOptional = jobRepository.findById(uuid);
@@ -105,7 +100,6 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Job getJob(final String id) {
-
         UUID uuid = UUID.fromString(id);
 
         if(jobRepository.existsById(uuid)) {

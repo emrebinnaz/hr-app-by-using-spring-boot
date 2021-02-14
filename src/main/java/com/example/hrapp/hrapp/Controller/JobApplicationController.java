@@ -2,20 +2,17 @@ package com.example.hrapp.hrapp.Controller;
 
 import com.example.hrapp.hrapp.DTO.JobApplicationDTO;
 import com.example.hrapp.hrapp.Domain.JobApplication;
+import com.example.hrapp.hrapp.MapStruct.JobApplicationMapper;
 import com.example.hrapp.hrapp.Response.AllJobApplicationsResponse;
 import com.example.hrapp.hrapp.Response.BaseResponse;
 import com.example.hrapp.hrapp.Service.JobApplicationService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.lang.reflect.Type;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -23,8 +20,7 @@ import java.util.List;
 public class JobApplicationController {
 
     private final JobApplicationService jobApplicationService;
-
-    private final ModelMapper modelMapper;
+    private final JobApplicationMapper jobApplicationMapper;
 
     @PostMapping(value = "/applyToJob/{jobId}",
                  headers = "content-type=multipart/form-data",
@@ -32,9 +28,11 @@ public class JobApplicationController {
     public ResponseEntity<BaseResponse> applyToJob(@RequestParam("jobApplication") @Valid JobApplicationDTO jobApplicationDTO,
                                                    @RequestParam("resume") MultipartFile resume,
                                                    @PathVariable final String jobId) {
-        final BaseResponse baseResponse = jobApplicationService.applyToJob(jobApplicationDTO, resume, jobId);
-        return ResponseEntity.ok(baseResponse);
 
+        final JobApplication jobApplication = jobApplicationMapper.mapToEntity(jobApplicationDTO);
+        final BaseResponse baseResponse = jobApplicationService.applyToJob(jobApplication, resume, jobId);
+
+        return ResponseEntity.ok(baseResponse);
     }
 
     @GetMapping("/getAllJobApplicationsBy/{jobId}")
@@ -42,13 +40,10 @@ public class JobApplicationController {
     public ResponseEntity<AllJobApplicationsResponse> getAllJobApplicationsBy(@PathVariable final String jobId) {
 
         final List<JobApplication> jobApplications = jobApplicationService.getAllJobApplicationsBy(jobId);
+        final List<JobApplicationDTO> jobApplicationsDtoList = jobApplicationMapper.mapToDto(jobApplications);
 
-        final Type listType = new TypeToken<List<JobApplicationDTO>>(){}.getType();
-        List<JobApplicationDTO> jobApplicationsDtoList = modelMapper.map(jobApplications, listType);
-
-        return ResponseEntity.ok(new AllJobApplicationsResponse("All jobs are retrieved",
-                true,
-                jobApplicationsDtoList));
+        return ResponseEntity.ok(new AllJobApplicationsResponse("All jobs applications are retrieved",
+                true, jobApplicationsDtoList));
     }
 
     @GetMapping("/getAllJobApplications")
@@ -56,14 +51,9 @@ public class JobApplicationController {
     public ResponseEntity<AllJobApplicationsResponse> getAllJobApplications() {
 
         final List<JobApplication> jobApplications = jobApplicationService.getAllJobApplications();
+        final List<JobApplicationDTO> jobApplicationsDtoList = jobApplicationMapper.mapToDto(jobApplications);
 
-        final Type listType = new TypeToken<List<JobApplicationDTO>>(){}.getType();
-        List<JobApplicationDTO> jobApplicationsDtoList = modelMapper.map(jobApplications, listType);
-
-        return ResponseEntity.ok(new AllJobApplicationsResponse("All jobs are retrieved",
-                true,
-                jobApplicationsDtoList));
-
+        return ResponseEntity.ok(new AllJobApplicationsResponse("All jobs applications are retrieved",
+                true,jobApplicationsDtoList));
     }
-
 }
